@@ -4,7 +4,7 @@
 namespace Settings
 {
     const int Width  = 800;
-    const int Heigth = 600;
+    const int Heigth = 800;
 
     const char *WindowName = "Vectors";
 }

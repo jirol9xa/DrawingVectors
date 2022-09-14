@@ -6,14 +6,7 @@
 
 int main()
 {
-    Vector vec1(2, 2, 2);
-    Vector vec2 = vec1;
-
-    std::cout << "double = " << double(vec2) << "\n" 
-              << "vec2 * 2 = " << double(vec2 * 2) << "\n"
-              << "2 * vec1 = " << double(2 * vec1) << "\n";
-
-    std::cout << 3.0 + double(vec2) << std::endl;
+    Vector vec1(3, 2, 0);
 
     using Settings::Width;
     using Settings::Heigth;
@@ -39,11 +32,13 @@ int main()
 
         if (clock.getElapsedTime().asMilliseconds() >= 10)
         {
-            vec1.rotate(0.001);
+            vec1.rotate(-0.02);
+            // vec2.rotate(0.02 / 60);
             clock.restart();
         }
         
         vec1.draw(window);
+
         window.display();
         window.clear();
     }
