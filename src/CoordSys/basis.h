@@ -6,7 +6,7 @@ class Basis
 private:
     double x_, y_, z_, scale_;
 public:
-    Basis(double x = 0, double y = 0, double z = 0, double scale = 1.0) :
+    Basis(double x = 400, double y = 300, double z = 0, double scale = 10.0) :
         x_(x), y_(y), z_(z), scale_(scale) {}
     Basis(const Basis &&basis) : x_(basis.x_), y_(basis.y_), z_(basis.z_), 
                            scale_(basis.scale_) {}

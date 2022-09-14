@@ -15,19 +15,23 @@ private:
     long double length_;
 
 public:
-    Vector(double x = 0, double y = 0, double z = 0, double basis_x = 0, 
-           double basis_y = 0, double basis_z = 0, double basis_scale = 0) :
+    Vector(double x = 0, double y = 0, double z = 0, double basis_x = 400, 
+           double basis_y = 300, double basis_z = 0, double basis_scale = 50.0) : 
            basis_(basis_x, basis_y, basis_z, basis_scale), x_(x), y_(y), z_(z), 
-           length_(-1)   {}
+           length_(-1)  {}
 
     Vector(const Vector &&vec) : basis_(std::move(vec.basis_)), x_(vec.x_), y_(vec.y_), 
                                  z_(vec.z_), length_(vec.length_) {}
     Vector(const Vector &vec) :  basis_(vec.basis_), x_(vec.x_), y_(vec.y_), z_(vec.z_),
                                  length_(vec.length_) {}
 
-    double getX() const { return x_; }
-    double getY() const { return y_; }
-    double getZ() const { return z_; }
+    double getRelativeX() const { return x_; }
+    double getRelativeY() const { return y_; }
+    double getRelativeZ() const { return z_; }
+
+    double getAbsX() const { return basis_.getX() + x_ * basis_.getScale(); }
+    double getAbsY() const { return basis_.getY() - y_ * basis_.getScale(); }
+    double getAbsZ() const { return basis_.getZ() + z_ * basis_.getScale(); }
 
     double setX(double x);
     double setY(double y);
@@ -41,14 +45,20 @@ public:
         return length_;
     }
 
+    void rotate(double angle);
+
+    void draw(sf::RenderWindow & window) const;
+
     friend const Vector operator*(double coef, const Vector &vec);
 
     const Vector & operator=(const Vector &&vec);
     const Vector & operator=(const Vector &vec);
-    const Vector operator+(const Vector &arg);
-    const Vector operator-(const Vector &arg);
+    const Vector operator+(const Vector &vec);
+    const Vector operator-(const Vector &vec);
     const Vector operator*(double coef);
     const Vector operator-();
+
+    double operator*(const Vector &arg);
 
     explicit operator double() const { return std::sqrt(x_*x_ + y_*y_ + z_*z_); }
     void operator+=(const Vector &arg);
@@ -84,6 +94,12 @@ inline const Vector Vector::operator*(double coef)
     return Vector(x_ * coef, y_ * coef, z_ * coef, basis_.getX() * coef,
                   basis_.getY(), basis_.getZ(), basis_.getScale());
 }
+
+inline double Vector::operator*(const Vector &vec)
+{
+    return (x_ * vec.x_ + y_ * vec.y_ + z_ * vec.z_);
+}
+
 
 inline const Vector operator*(double coef, const Vector &vec)
 {

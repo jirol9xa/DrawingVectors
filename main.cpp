@@ -26,9 +26,7 @@ int main()
     texture.create(Width, Heigth);
 
     sf::Sprite sprite(texture);
-
-    int i = 0,
-        j = 0;
+    sf::Clock clock;
 
     while (window.isOpen())
     {
@@ -37,15 +35,17 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 
-        if (i < 800 * 600)
-            pixel_arr[i / 800][i % 600] = 0xFFFFFFFF;
-
-        // std::cout << i << std::endl;
-        i++;    
         texture.update((const uint8_t *) (pixel_arr));
 
-        window.draw(sprite);
+        if (clock.getElapsedTime().asMilliseconds() >= 10)
+        {
+            vec1.rotate(0.001);
+            clock.restart();
+        }
+        
+        vec1.draw(window);
         window.display();
+        window.clear();
     }
     
     return 0;
