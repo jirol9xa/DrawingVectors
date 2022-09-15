@@ -31,7 +31,6 @@ public:
         arrow_x1_ = arrow_x2_ = -0.5;
         arrow_y1_ = 0.5, arrow_y2_ = -0.5;
 
-
         rotateArrow(y_ / length, x_ / length);
     }
 
@@ -73,8 +72,8 @@ public:
 
     const Vector & operator=(const Vector &&vec);
     const Vector & operator=(const Vector &vec);
-    const Vector operator+(const Vector &vec);
-    const Vector operator-(const Vector &vec);
+    const Vector operator+  (const Vector &vec);
+    const Vector operator-  (const Vector &vec);
     const Vector operator*(double coef);
     const Vector operator-();
 
@@ -83,7 +82,10 @@ public:
     explicit operator double() const { return std::sqrt(x_*x_ + y_*y_ + z_*z_); }
     void operator+=(const Vector &arg);
     void operator-=(const Vector &arg);
-    void operator*=(const Vector &arg); 
+    void operator*=(double coef); 
+
+private:
+    void autoRotateArrow(double old_x, double old_y, double old_z, double old_length);
 };
 
 
@@ -94,6 +96,11 @@ inline const Vector & Vector::operator=(const Vector &&vec)
     y_      = vec.y_;
     z_      = vec.z_;
     length_ = vec.length_;
+
+    arrow_x1_ = vec.arrow_x1_;
+    arrow_x2_ = vec.arrow_x2_;
+    arrow_y1_ = vec.arrow_y1_;
+    arrow_y2_ = vec.arrow_y2_;
 
     return *this;
 }
@@ -106,12 +113,17 @@ inline const Vector & Vector::operator=(const Vector &vec)
     z_      = vec.z_;
     length_ = vec.length_;
 
+    arrow_x1_ = vec.arrow_x1_;
+    arrow_x2_ = vec.arrow_x2_;
+    arrow_y1_ = vec.arrow_y1_;
+    arrow_y2_ = vec.arrow_y2_;
+
     return *this;
 }
 
 inline const Vector Vector::operator*(double coef)
 {
-    return Vector(x_ * coef, y_ * coef, z_ * coef, basis_.getX() * coef,
+    return Vector(x_ * coef, y_ * coef, z_ * coef, basis_.getX(),
                   basis_.getY(), basis_.getZ(), basis_.getScale());
 }
 
@@ -137,11 +149,17 @@ inline const Vector Vector::operator+(const Vector &arg)
 
 inline void Vector::operator+=(const Vector &arg)
 {
+    double old_x = x_,
+           old_y = y_,
+           old_z = z_;
+
     x_ += arg.x_;
-    y_ += arg.y_;       // Try to get y, when It private
+    y_ += arg.y_;
     z_ += arg.z_;
 
     length_ = -1;
+
+    autoRotateArrow(old_x, old_y, old_z, length_);
 }
 
 inline const Vector Vector::operator-(const Vector &arg)
@@ -158,18 +176,24 @@ inline const Vector Vector::operator-()
 
 inline void Vector::operator-=(const Vector &arg)
 {
-    x_ -= arg.x_;
-    y_ -= arg.y_;
-    z_ -= arg.z_;
+    double old_x = x_,
+           old_y = y_,
+           old_z = z_;
+
+    x_ += arg.x_;
+    y_ += arg.y_;
+    z_ += arg.z_;
 
     length_ = -1;
+
+    autoRotateArrow(old_x, old_y, old_z, length_);
 }
 
-inline void Vector::operator*=(const Vector &arg)
+inline void Vector::operator*=(double coef)
 {
-    x_ *= arg.x_;
-    y_ *= arg.y_;
-    z_ *= arg.z_;
+    x_ *= coef;
+    y_ *= coef;
+    z_ *= coef;
 
     length_ = -1;
 }

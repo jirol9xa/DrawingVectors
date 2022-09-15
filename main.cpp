@@ -5,23 +5,17 @@
 
 int main()
 {
-    Vector vec1(1, 1, 0);
-    Vector vec2(vec1);
-    Vector vec3(vec1 + vec2);
+    // Vector vec1(1, 1, 0);
+    Vector vec2(2, 3);
+    Vector vec3{1, 0};
+    vec2 *= 0.5;
 
-    vec2.setX(5);
+    vec2.setY(2);
 
     using Settings::Width;
     using Settings::Heigth;
 
-    uint32_t pixel_arr[Width][Heigth] = {};
-
     sf::RenderWindow window(sf::VideoMode(Width, Heigth),Settings::WindowName);
-    
-    sf::Texture texture;
-    texture.create(Width, Heigth);
-
-    sf::Sprite sprite(texture);
     sf::Clock clock;
 
     while (window.isOpen())
@@ -31,18 +25,14 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 
-        texture.update((const uint8_t *) (pixel_arr));
-
         if (clock.getElapsedTime().asMilliseconds() >= 10)
         {
-            vec1.rotate(-0.02);
-            vec2.rotate(0.02);
-            // vec3.rotate(0.004);
-            // vec2.rotate(0.02 / 60);
+            vec2.rotate(-0.02);
+            vec3.rotate(-0.006);
             clock.restart();
         }
         
-        vec1.draw(window);
+        // vec1.draw(window);
         vec2.draw(window);
         vec3.draw(window);
 

@@ -5,20 +5,24 @@
 
 double Vector::setX(double x)
 {
-    double temp = x_;
+    double old_x = x_;
     x_ = x;
     length_ = -1;
 
-    return temp;
+    autoRotateArrow(old_x, y_, z_, length_);
+
+    return old_x;
 }
 
 double Vector::setY(double y)
 {
-    double temp = y_;
+    double old_y = y_;
     y_ = y;
     length_ = -1;
-    
-    return temp;
+
+    autoRotateArrow(x_, old_y, z_, length_);
+
+    return old_y;    
 }
 
 double Vector::setZ(double z)
@@ -101,4 +105,27 @@ void Vector::rotateArrow(double sin, double cos)
     arrow_y2_ = x_temp * sin + y_temp * cos;
 
     return;
+}
+
+
+void Vector::autoRotateArrow(double old_x, double old_y, double old_z, double old_length)
+{
+    if (old_length < 0) 
+        old_length = std::sqrt(old_x * old_x + old_y * old_y + old_z * old_z);
+
+    double length = length_;
+    if (length < 0)
+    {
+        length_ = x_ * x_ + y_ * y_ + z_ * z_;
+        length = std::sqrt(length_);
+    }
+    else
+        length = std::sqrt(length_);
+
+    double sin     = y_ / length,
+           cos     = x_ / length,
+           old_sin = old_y / old_length,
+           old_cos = old_x / old_length;
+
+    rotateArrow(sin * old_cos - old_sin * cos, cos * old_cos + sin * old_sin);
 }
