@@ -34,36 +34,6 @@ double Vector::setZ(double z)
     return temp;
 }
 
-void Vector::draw(sf::RenderWindow & window) const
-{
-    double X0 = basis_.getX();
-    double Y0 = basis_.getY();
-    double Scale = basis_.getScale();
-
-    sf::Vertex mainLine[] = 
-    {
-        sf::Vertex(sf::Vector2f(basis_.getX(), basis_.getY())),
-        sf::Vertex(sf::Vector2f(getAbsX(), getAbsY())),
-    };
-    window.draw(mainLine, 2, sf::Lines);
-
-    sf::Vertex rightLine[] =
-    {
-        sf::Vertex(sf::Vector2f(getAbsX(), getAbsY())),
-        sf::Vertex(sf::Vector2f((arrow_x1_ + x_) * Scale + X0, 
-                                (-arrow_y1_ - y_) * Scale + Y0))
-    };
-    window.draw(rightLine, 2, sf::Lines);
-
-    sf::Vertex leftLine[] =
-    {
-        sf::Vertex(sf::Vector2f(getAbsX(), getAbsY())),
-        sf::Vertex(sf::Vector2f((arrow_x2_ + x_) * Scale + X0,
-                                (-arrow_y2_ - y_) * Scale + Y0))
-    };
-    window.draw(leftLine, 2, sf::Lines);
-}
-
 void Vector::rotate(double angle)
 {
     double sin = std::sin(angle),

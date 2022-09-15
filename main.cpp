@@ -1,22 +1,27 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "src/Vector/vector.h"
-#include "src/VideoSettings.h"
+#include "vector.h"
+#include "videoSettings.h"
+#include "render.h"
+
 
 int main()
 {
     // Vector vec1(1, 1, 0);
-    Vector vec2(2, 3);
-    Vector vec3{1, 0};
-    vec2 *= 0.5;
-
-    vec2.setY(2);
+    
 
     using Settings::Width;
     using Settings::Heigth;
 
     sf::RenderWindow window(sf::VideoMode(Width, Heigth),Settings::WindowName);
+    Render sfml_window(&window);
     sf::Clock clock;
+
+    Vector vec2(sfml_window, 2, 3);
+    Vector vec3{sfml_window, 1, 0};
+    vec2 *= 0.5;
+
+    vec2.setY(2);
 
     while (window.isOpen())
     {
@@ -32,9 +37,8 @@ int main()
             clock.restart();
         }
         
-        // vec1.draw(window);
-        vec2.draw(window);
-        vec3.draw(window);
+        vec2.draw();
+        vec3.draw();
 
         window.display();
         window.clear();
