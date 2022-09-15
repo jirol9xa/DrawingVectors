@@ -3,7 +3,7 @@
 #include <iostream>
 #include "vector.h"
 
-inline double Vector::setX(double x)
+double Vector::setX(double x)
 {
     double temp = x_;
     x_ = x;
@@ -12,7 +12,7 @@ inline double Vector::setX(double x)
     return temp;
 }
 
-inline double Vector::setY(double y)
+double Vector::setY(double y)
 {
     double temp = y_;
     y_ = y;
@@ -21,7 +21,7 @@ inline double Vector::setY(double y)
     return temp;
 }
 
-inline double Vector::setZ(double z)
+double Vector::setZ(double z)
 {
     double temp = z_;
     z_ = z;

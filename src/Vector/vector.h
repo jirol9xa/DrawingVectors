@@ -25,39 +25,24 @@ public:
            basis_(basis_x, basis_y, basis_z, basis_scale), x_(x), y_(y), z_(z), 
            length_(-1), arrow_x1_(0), arrow_y1_(0), arrow_x2_(0), arrow_y2_(0)  
     {
-        double length = std::sqrt(x_ * x_ + y_ * y_ + z_ * z_);
+        length_ = x_ * x_ + y_ * y_ + z_ * z_;
+        double length = std::sqrt(length_);
 
-        // double sin_f = y / length,
-        //        cos_f = x / length;
+        arrow_x1_ = arrow_x2_ = -0.5;
+        arrow_y1_ = 0.5, arrow_y2_ = -0.5;
 
-        // double sin_t = 0.7, cos_t = 0.7;
-        
-        // std::cout << "X = " << x << " Y = " << y << "\n";
 
-        // arrow_x1_ = x / 2;
-        // arrow_y1_ = y / 2;
-
-        // double sin_ks = sin_t * cos_f - sin_f * cos_t,
-        //        cos_ks = -cos_t * cos_f - sin_f * sin_t;
-
-        // arrow_x1_ = x/2 * (-cos_t) - y/2 * sin_t;
-        // arrow_y1_ = x/2 * sin_t + y/2 * (-cos_t);
-
-        // std::cout << "x = " << arrow_x1_ << "\n y = " << arrow_y1_ << "\n";
-
-        // arrow_x1_ = arrow_x2_ = -0.5;
-        // arrow_y1_ = 0.5, arrow_y2_ = -0.5;
-
-        // std::cout << "sin = " << y_ / length << ", cos = " << x_ / length << std::endl;
-
-        rotateArrow();
         rotateArrow(y_ / length, x_ / length);
     }
 
     Vector(const Vector &&vec) : basis_(std::move(vec.basis_)), x_(vec.x_), y_(vec.y_), 
-                                 z_(vec.z_), length_(vec.length_) {}
+                                 z_(vec.z_), length_(vec.length_), arrow_x1_(vec.arrow_x1_),
+                                 arrow_x2_(vec.arrow_x2_), arrow_y1_(vec.arrow_y1_),
+                                 arrow_y2_(vec.arrow_y2_) {}
     Vector(const Vector &vec) :  basis_(vec.basis_), x_(vec.x_), y_(vec.y_), z_(vec.z_),
-                                 length_(vec.length_) {}
+                                 length_(vec.length_), arrow_x1_(vec.arrow_x1_),
+                                 arrow_x2_(vec.arrow_x2_), arrow_y1_(vec.arrow_y1_),
+                                 arrow_y2_(vec.arrow_y2_) {}
 
     double getRelativeX() const { return x_; }
     double getRelativeY() const { return y_; }
@@ -146,8 +131,8 @@ inline const Vector operator*(double coef, const Vector &vec)
 inline const Vector Vector::operator+(const Vector &arg)
 {
     return Vector(x_ + arg.x_, y_ + arg.y_, z_ + arg.z_,
-                  basis_.getX() + arg.basis_.getX(), basis_.getY() + arg.basis_.getY(),
-                  basis_.getZ() + arg.basis_.getZ(), basis_.getScale() + arg.basis_.getScale());
+                  basis_.getX(), basis_.getY(),
+                  basis_.getZ(), basis_.getScale());
 }
 
 inline void Vector::operator+=(const Vector &arg)
@@ -162,8 +147,8 @@ inline void Vector::operator+=(const Vector &arg)
 inline const Vector Vector::operator-(const Vector &arg)
 {
     return Vector(x_ - arg.x_, y_ - arg.y_, z_ - arg.z_,
-                  basis_.getX() - arg.basis_.getX(), basis_.getY() - arg.basis_.getY(),
-                  basis_.getZ() - arg.basis_.getZ(), basis_.getScale() - arg.basis_.getScale());
+                  basis_.getX(), basis_.getY(),
+                  basis_.getZ(), basis_.getScale());
 }
 
 inline const Vector Vector::operator-()
