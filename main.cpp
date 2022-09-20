@@ -1,48 +1,43 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
+#include "render.h"
 #include "vector.h"
 #include "videoSettings.h"
-#include "render.h"
+#include <SFML/Graphics.hpp>
+#include <iostream>
 
+int main() {
+  // Vector vec1(1, 1, 0);
 
-int main()
-{
-    // Vector vec1(1, 1, 0);
-    
+  using Settings::Heigth;
+  using Settings::Width;
 
-    using Settings::Width;
-    using Settings::Heigth;
+  sf::RenderWindow window(sf::VideoMode(Width, Heigth), Settings::WindowName);
+  Render sfml_window(&window);
+  sf::Clock clock;
 
-    sf::RenderWindow window(sf::VideoMode(Width, Heigth),Settings::WindowName);
-    Render sfml_window(&window);
-    sf::Clock clock;
+  Vector vec2(sfml_window, 2, 3);
+  Vector vec3{sfml_window, 1, 0};
+  vec2 *= 0.5;
 
-    Vector vec2(sfml_window, 2, 3);
-    Vector vec3{sfml_window, 1, 0};
-    vec2 *= 0.5;
+  vec2.setY(2);
 
-    vec2.setY(2);
+  while (window.isOpen()) {
+    sf::Event event;
+    while (window.pollEvent(event))
+      if (event.type == sf::Event::Closed)
+        window.close();
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-            if (event.type == sf::Event::Closed)
-                window.close();
-
-        if (clock.getElapsedTime().asMilliseconds() >= 10)
-        {
-            vec2.rotate(-0.02);
-            vec3.rotate(-0.006);
-            clock.restart();
-        }
-        
-        vec2.draw();
-        vec3.draw();
-
-        window.display();
-        window.clear();
+    if (clock.getElapsedTime().asMilliseconds() >= 10) {
+      vec2.rotate(-0.02);
+      vec3.rotate(-0.006);
+      clock.restart();
     }
-    
-    return 0;
+
+    vec2.draw();
+    vec3.draw();
+
+    window.display();
+    window.clear();
+  }
+
+  return 0;
 }

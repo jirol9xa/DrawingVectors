@@ -5,7 +5,7 @@ SFML_FLAGS 	= -lsfml-graphics -lsfml-window -lsfml-system
 
 
 all: main.o vector.o render.o
-	$(CC) main.o vector.o render.o -o test $(SFML_FLAGS)
+	$(CC) main.o vector.o render.o -o test $(SFML_FLAGS) -Wall -Wextra -Wpedantic
 clear:
 	rm -rf *.o
 
