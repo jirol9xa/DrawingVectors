@@ -1,13 +1,12 @@
 #include "render.h"
 
-void Render::draw(double x, double y, double z, double arrow_x1, double arrow_x2,
-                  double arrow_y1, double arrow_y2) const
+void Render::draw(Vector &vec) const
 {
     double X0    = basis_.getX(),
            Y0    = basis_.getY(),
            Scale = basis_.getScale(),
-           absX  = X0 + x * Scale,
-           absY  = Y0 - y * Scale;
+           absX  = X0 + vec.getX() * Scale,
+           absY  = Y0 - vec.getY() * Scale;
 
     sf::Vertex mainLine[] = 
     {
@@ -19,16 +18,16 @@ void Render::draw(double x, double y, double z, double arrow_x1, double arrow_x2
     sf::Vertex rightLine[] =
     {
         sf::Vertex(sf::Vector2f(absX, absY)),
-        sf::Vertex(sf::Vector2f(arrow_x1  * Scale + absX, 
-                                -arrow_y1 * Scale + absY))
+        sf::Vertex(sf::Vector2f(vec.arrow_x1_  * Scale + absX, 
+                                -vec.arrow_y1_ * Scale + absY))
     };
     window_->draw(rightLine, 2, sf::Lines);
     
     sf::Vertex leftLine[] =
     {
         sf::Vertex(sf::Vector2f(absX, absY)),
-        sf::Vertex(sf::Vector2f(arrow_x2  * Scale + absX,
-                                -arrow_y2 * Scale + absY))
+        sf::Vertex(sf::Vector2f(vec.arrow_x2_  * Scale + absX,
+                                -vec.arrow_y2_ * Scale + absY))
     };
     window_->draw(leftLine, 2, sf::Lines);
 }

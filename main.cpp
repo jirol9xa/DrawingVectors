@@ -5,8 +5,6 @@
 #include <iostream>
 
 int main() {
-  // Vector vec1(1, 1, 0);
-
   using Settings::Heigth;
   using Settings::Width;
 
@@ -14,11 +12,9 @@ int main() {
   Render sfml_window(&window);
   sf::Clock clock;
 
-  Vector vec2(sfml_window, 2, 3);
-  Vector vec3{sfml_window, 1, 0};
-  vec2 *= 0.5;
-
-  vec2.setY(2);
+  Vector vec2(2, 3);
+  vec2.setX(8);
+  vec2 += {-3, 3};
 
   while (window.isOpen()) {
     sf::Event event;
@@ -28,12 +24,13 @@ int main() {
 
     if (clock.getElapsedTime().asMilliseconds() >= 10) {
       vec2.rotate(-0.02);
-      vec3.rotate(-0.006);
       clock.restart();
     }
 
-    vec2.draw();
-    vec3.draw();
+    sfml_window.draw(vec2);
+
+    // vec2.draw();
+    // vec3.draw();
 
     window.display();
     window.clear();
