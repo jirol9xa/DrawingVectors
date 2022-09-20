@@ -5,10 +5,9 @@
 #include <iostream>
 
 int main() {
-  using Settings::Heigth;
-  using Settings::Width;
+  using namespace Settings;  
 
-  sf::RenderWindow window(sf::VideoMode(Width, Heigth), Settings::WindowName);
+  sf::RenderWindow window(sf::VideoMode(Width, Heigth), "Vectors");
   Render sfml_window(&window);
   sf::Clock clock;
 

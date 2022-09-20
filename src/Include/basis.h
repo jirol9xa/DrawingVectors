@@ -1,6 +1,8 @@
 #ifndef BASIS_H
 #define BASIS_H
 
+#include "videoSettings.h"
+
 class Basis 
 {
 private:
@@ -9,8 +11,8 @@ private:
            z_, 
            scale_;
 public:
-    Basis(double x = 400, double y = 300, double z = 0, double scale = 50.0) :
-        x_(x), y_(y), z_(z), scale_(scale) {}
+    Basis(double x = Settings::Width / 2, double y = Settings::Heigth / 2, double z = 0, 
+          double scale = 50.0) : x_(x), y_(y), z_(z), scale_(scale) {}
     Basis(const Basis &&basis) : x_(basis.x_), y_(basis.y_), z_(basis.z_), 
                            scale_(basis.scale_) {}
     Basis(const Basis &basis) : x_(basis.x_), y_(basis.y_), z_(basis.z_), 
