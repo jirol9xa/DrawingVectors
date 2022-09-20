@@ -64,6 +64,7 @@ public:
     const Vector & operator=(const Vector &vec);
     const Vector   operator+(const Vector &vec);
     const Vector   operator-(const Vector &vec);
+    const Vector   operator&(const Vector &vec);
     const Vector   operator*(double coef);
     const Vector   operator-();
 
@@ -154,6 +155,16 @@ inline const Vector Vector::operator-()
 {
     return (-1) * (*this);
 }
+
+inline const Vector Vector::operator&(const Vector &vec)
+{
+    double x2 = vec.x_,
+           y2 = vec.y_,
+           z2 = vec.z_; 
+    
+    return Vector(y_ * z2 - z_ * y2, z_ * x2 - x_ * z2, x_ * y2 - y_ * x2);
+}
+
 
 inline void Vector::operator-=(const Vector &arg)
 {
