@@ -12,6 +12,8 @@ int main() {
   sf::Clock clock;
 
   Vector vec2(2, 3);
+  Vector vec3(2, 3);
+  vec2 & vec3;
   vec2.setX(8);
   vec2 += {-3, 3};
 
